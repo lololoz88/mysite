@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сайт работает</title>
+<style>
+  :root {
+    --bg: #e6edf1;
+    --ink: #13222d;
+    --muted: #4d6270;
+    --signal: #0b6bcb;
+    --line: #b9c8d2;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.55;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 24px;
+  }
+  main { width: 100%; max-width: 760px; margin: 0 auto; }
+  h1 {
+    font-size: clamp(2rem, 7vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .lead { color: var(--muted); max-width: 52ch; margin: 0 0 32px; font-size: 1.1rem; }
+  .address {
+    display: block;
+    font-family: Consolas, "SF Mono", Menlo, monospace;
+    font-size: clamp(1.3rem, 5.5vw, 2.4rem);
+    font-weight: 700;
+    color: var(--signal);
+    padding: 20px 22px;
+    border: 2px solid var(--signal);
+    border-radius: 6px;
+    background: #fff;
+    overflow-wrap: anywhere;
+    margin-bottom: 8px;
+    animation: pulse 1.6s ease-out 1;
+  }
+  @keyframes pulse {
+    from { box-shadow: 0 0 0 0 rgba(11,107,203,.45); }
+    to   { box-shadow: 0 0 0 18px rgba(11,107,203,0); }
+  }
+  .hint { color: var(--muted); font-size: .95rem; margin: 0 0 36px; }
+  dl { margin: 0; border-top: 1px solid var(--line); }
+  .row {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  dt { color: var(--muted); }
+  dd { margin: 0; overflow-wrap: anywhere; }
+  footer { margin-top: 28px; color: var(--muted); font-size: .95rem; }
+  code { background: #fff; padding: 1px 6px; border-radius: 3px; }
+  @media (max-width: 520px) { .row { grid-template-columns: 1fr; gap: 2px; } }
+  @media (prefers-reduced-motion: reduce) { .address { animation: none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Сайт работает</h1>
+  <p class="lead">Эта страница отдается с компьютера в вашей сети. Если вы видите ее на телефоне, локальный доступ настроен правильно.</p>
+
+  <strong class="address" id="addr">…</strong>
+  <p class="hint">Этот адрес можно открыть с любого устройства в той же Wi-Fi сети.</p>
+
+  <dl>
+    <div class="row"><dt>Открыто с устройства</dt><dd id="device">…</dd></div>
+    <div class="row"><dt>Экран</dt><dd id="screen">…</dd></div>
+    <div class="row"><dt>Время на устройстве</dt><dd id="time">…</dd></div>
+  </dl>
+
+  <footer>Чтобы заменить эту страницу своим сайтом, отредактируйте файл <code>index.html</code> в этой папке.</footer>
+</main>
+
+<script>
+  document.getElementById('addr').textContent = location.origin === 'null' ? location.href : location.origin;
+
+  var ua = navigator.userAgent;
+  var device = /iPhone|iPad/.test(ua) ? 'iPhone / iPad'
+    : /Android/.test(ua) ? 'Android'
+    : /Windows/.test(ua) ? 'Windows'
+    : /Macintosh/.test(ua) ? 'Mac'
+    : /Linux/.test(ua) ? 'Linux' : 'Неизвестно';
+  document.getElementById('device').textContent = device;
+  document.getElementById('screen').textContent = screen.width + ' × ' + screen.height;
+
+  function tick() {
+    document.getElementById('time').textContent = new Date().toLocaleTimeString('ru-RU');
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
